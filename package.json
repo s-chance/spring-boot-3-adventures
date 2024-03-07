@@ -1,0 +1,21 @@
+{
+  "name": "spring-boot-3-adventures",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky",
+    "cz": "cz",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.3",
+    "@commitlint/config-conventional": "^19.0.3",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "github:commitizen/cz-conventional-changelog",
+    "husky": "^9.0.11"
+  }
+}
