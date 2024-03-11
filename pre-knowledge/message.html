@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> js 导入导出</title>
+</head>
+
+<body>
+    <div id="app">
+        <button id="btn">展示信息</button>
+    </div>
+
+    <script type="module">
+        // import { complexMessage as cm } from './showMessage.js';
+        import messageMethods from './showMessage.js';
+        document.getElementById("btn").onclick = function() {
+            // cm("You click me");
+            messageMethods.complexMessage("You click me again");
+        }
+    </script>
+</body>
+</html>
