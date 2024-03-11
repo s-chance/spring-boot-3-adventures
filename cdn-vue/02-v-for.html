@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>v-for</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <table border="1 solid" colspa="0" cellspacing="0">
+                <tr>
+                    <th>title</th>
+                    <th>category</th>
+                    <th>time</th>
+                    <th>state</th>
+                    <th>operate</th>
+                </tr>
+                <!-- v-for 添加到需要重复出现的元素上 -->
+                <tr v-for='(article, index) in items'>
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.category }}</td>
+                    <td>{{ article.time }}</td>
+                    <td>{{ article.state }}</td>
+                    <td>
+                        <button>edit</button>
+                        <button>delete</button>
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td>title2</td>
+                    <td>category2</td>
+                    <td>2012-03-11</td>
+                    <td>published</td>
+                    <td>
+                        <button>edit</button>
+                        <button>delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>title3</td>
+                    <td>category3</td>
+                    <td>2022-12-01</td>
+                    <td>published</td>
+                    <td>
+                        <button>edit</button>
+                        <button>delete</button>
+                    </td>
+                </tr> -->
+            </table>
+
+        </div>
+
+        <script type="module">
+            import { createApp } from "https://unpkg.com/vue@3.4.19/dist/vue.esm-browser.js"
+            createApp({
+                data() {
+                    return {
+                        items: [
+                            {
+                                title: "做饭指南",
+                                category: "美食",
+                                time: "2024-03-08",
+                                state: "已发布"
+                            },
+                            {
+                                title: "厨房危机",
+                                category: "美食",
+                                time: "2024-03-08",
+                                state: "草稿"
+                            },
+                            {
+                                title: "养生秘诀",
+                                category: "美食",
+                                time: "2024-03-08",
+                                state: "已发布"
+                            }
+                        ]
+                    }
+                }
+            }).mount("#app")
+        </script>
+    </body>
+
+
+</html>

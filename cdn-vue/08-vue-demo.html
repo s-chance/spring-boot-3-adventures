@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>vue-demo</title>
+    </head>
+
+    <body>
+        <div id="app">
+
+            文章分类：<input type="text" v-model="searchConditions.category">
+
+            发布状态：<input type="text" v-model="searchConditions.state">
+
+            <button @click="search">搜索</button>
+
+            <br>
+            <br>
+            <table border="1 solid" colspa="0" cellspacing="0">
+                <tr>
+                    <th>文章标题</th>
+                    <th>分类</th>
+                    <th>发布时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+
+                <tr v-for="(article,index) in articleList">
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.category }}</td>
+                    <td>{{ article.time }}</td>
+                    <td>{{ article.state }}</td>
+                    <td>
+                        <button>编辑</button>
+                        <button>删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 引入 axios 的 js 文件 -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script type="module">
+            // 导入 vue 模块
+            import { createApp } from "https://unpkg.com/vue@3.4.19/dist/vue.esm-browser.js"
+            // 创建 vue 实例
+            createApp({
+                data() {
+                    return {
+                        articleList: [],
+                        searchConditions: {
+                            category: "",
+                            state: ""
+                        },
+                    }
+                },
+                methods: {
+                    // 声明函数
+                    search: function() {
+                        // 发送请求，完成搜索，携带搜索条件
+                        axios.get('http://127.0.0.1:4523/m1/4126110-0-default/search?category=' + this.searchConditions.category + 
+                        '&state=' + this.searchConditions.state).then(result => {
+                            // console.log(result.data);
+                            // 成功回调 result.data
+                            // 把 result.data 的数据赋值给 articleList
+                            this.articleList=result.data;
+                        }).catch(err => {
+                            console.log(err);
+                        })
+                    }
+                },
+                // 钩子函数 mounted 中，获取所有的文章数据
+                mounted() { 
+                    // 发送异步请求 axios
+                    axios.get('http://127.0.0.1:4523/m1/4126110-0-default/article').then(result => {
+                        // 成功回调
+                        // console.log(result.data);
+                        this.articleList=result.data;
+                    }).catch(err => {
+                        // 失败回调
+                        console.log(err);
+                    })
+                }
+            }).mount("#app")
+        </script>
+    </body>
+</html>

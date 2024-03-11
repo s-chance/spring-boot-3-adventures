@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>v-if & v-show</title>
+    </head>
+    
+    <body>
+
+        <div id="app">
+            衬衫的价格是: 
+            <span v-if="customer.level>=0 && customer.level <=1">9.15</span>
+            <span v-else-if="customer.level>=2 && customer.level<=4">12.15</span>
+            <span v-else>22.15</span>
+
+            <br>
+            衬衫的价格是: 
+            <span v-show="customer.level>=0 && customer.level <=1">9.15</span>
+            <span v-show="customer.level>=2 && customer.level<=4">12.15</span>
+            <span v-show="customer.level>=5">22.15</span>
+        </div>
+        
+        <script type="module">
+            import { createApp } from "https://unpkg.com/vue@3.4.19/dist/vue.esm-browser.js"
+            createApp({
+                data() {
+                    return {
+                        customer: {
+                            name: "black",
+                            level: 2
+                        }
+                    }
+                }
+            }).mount("#app")
+        </script>
+    </body>
+</html>
