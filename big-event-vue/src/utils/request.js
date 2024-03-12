@@ -3,7 +3,8 @@
 // 导入 axios 
 import axios from "axios";
 // 定义公共前缀变量 baseURL
-const baseURL = 'http://localhost:8080';
+// const baseURL = 'http://localhost:8080';
+const baseURL = '/api';
 const instance = axios.create({ baseURL });
 
 // 添加响应拦截器
