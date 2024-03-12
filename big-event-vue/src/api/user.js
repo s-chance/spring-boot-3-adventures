@@ -8,5 +8,5 @@ export const userRegisterService = (registerData) => {
     for (let key in registerData) {
         params.append(key, registerData[key]);
     }
-    request.post('/user/register', params)
+    return request.post('/user/register', params)
 }
