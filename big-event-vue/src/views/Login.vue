@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import { User,Lock } from '@element-plus/icons-vue'
 import { ref, reactive } from 'vue'
 // 控制注册与登录表单的显示，默认显示登录表单
@@ -40,13 +41,15 @@ import { userRegisterService, userLoginService } from '@/api/user'
 // 调用注册接口
 const register = async () => {
     let result = await userRegisterService(registerData);
-    if (result.code === 0) {
+    /* if (result.code === 0) {
         // 成功
         console.log('注册成功')   
     } else {
         // 失败
         console.log('注册失败')
-    }
+    } */
+    // alert(result.message?result.message:'注册成功')
+    ElMessage.success(result.message?result.message:'注册成功')
 }
 
 // 登录数据模型，复用注册数据模型
@@ -54,13 +57,15 @@ const register = async () => {
 // 调用登录接口
 const login = async () => {
     let result = await userLoginService(registerData)
-    if (result.code === 0) {
+    /* if (result.code === 0) {
         console.log('登录成功')
         alert(result.message?result.message:'登录成功')
     } else {
         console.log('登录失败')
         alert(result.message?result.message:'登录失败')
-    }
+    } */
+    // alert(result.message?result.message:'登录成功')
+    ElMessage.success(result.message?result.message:'登录成功')
 }
 // 出于安全考虑，切换登录和注册时需要手动清空数据，也可以考虑使用独立的登录数据模型
 const clearRegisterData = () => {
