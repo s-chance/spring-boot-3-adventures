@@ -21,38 +21,38 @@ import avatar from '@/assets/avatar.webp'
             <!-- element-plus 菜单 -->
             <el-menu active-text-color="#ffd04b" background-color="#232323" class="el-menu-vertical-demo"
                 text-color="#fff" router>
-                <el-menu-item index="1">
+                <el-menu-item index="/article/category">
                     <el-icon>
                         <management />
                     </el-icon>
                     <span>文章分类</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="/article/manage">
                     <el-icon>
                         <promotion />
                     </el-icon>
                     <span>文章管理</span>
                 </el-menu-item>
-                <el-sub-menu index="3">
+                <el-sub-menu>
                     <template #title>
                         <el-icon>
                             <user-filled />
                         </el-icon>
                         <span>个人中心</span>
                     </template>
-                    <el-menu-item index="3-1">
+                    <el-menu-item index="/user/info">
                         <el-icon>
                             <user />
                         </el-icon>
                         <span>基本资料</span>
                     </el-menu-item>
-                    <el-menu-item index="3-2">
+                    <el-menu-item index="/user/avatar">
                         <el-icon>
                             <crop />
                         </el-icon>
                         <span>更换头像</span>
                     </el-menu-item>
-                    <el-menu-item index="3-3">
+                    <el-menu-item index="/user/resetPassword">
                         <el-icon>
                             <edit-pen />
                         </el-icon>
@@ -86,9 +86,10 @@ import avatar from '@/assets/avatar.webp'
             </el-header>
             <!-- 中间区域 -->
             <el-main>
-                <div style="width: 1290px; height: 570px; border: 1px solid red;">
+                <!-- <div style="width: 1290px; height: 570px; border: 1px solid red;">
                     content
-                </div>
+                </div> -->
+                <router-view></router-view>
             </el-main>
             <!-- 底部区域 -->
             <el-footer>big-event @2023</el-footer>
