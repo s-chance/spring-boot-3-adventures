@@ -55,6 +55,8 @@ const register = async () => {
 // 登录数据模型，复用注册数据模型
 // 表单校验规则，复用注册表单校验规则
 // 调用登录接口
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const login = async () => {
     let result = await userLoginService(registerData)
     /* if (result.code === 0) {
@@ -66,6 +68,8 @@ const login = async () => {
     } */
     // alert(result.message?result.message:'登录成功')
     ElMessage.success(result.message?result.message:'登录成功')
+    // 路由跳转到首页
+    router.push('/')
 }
 // 出于安全考虑，切换登录和注册时需要手动清空数据，也可以考虑使用独立的登录数据模型
 const clearRegisterData = () => {
