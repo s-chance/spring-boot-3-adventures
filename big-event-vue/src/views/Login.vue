@@ -55,8 +55,10 @@ const register = async () => {
 // 登录数据模型，复用注册数据模型
 // 表单校验规则，复用注册表单校验规则
 // 调用登录接口
+import { useTokenStore } from '@/stores/token.js'
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const tokenStore = useTokenStore()
 const login = async () => {
     let result = await userLoginService(registerData)
     /* if (result.code === 0) {
@@ -68,6 +70,8 @@ const login = async () => {
     } */
     // alert(result.message?result.message:'登录成功')
     ElMessage.success(result.message?result.message:'登录成功')
+    // 把 token 保存到 pinia 中
+    tokenStore.setToken(result.data)
     // 路由跳转到首页
     router.push('/')
 }
