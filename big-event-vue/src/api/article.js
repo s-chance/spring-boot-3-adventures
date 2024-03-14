@@ -20,3 +20,7 @@ export const articleCategoryDeleteService = (id) => {
     const data = { id: id }
     return request.delete('/category', { data })
 }
+// 文章列表查询
+export const articleListService = (params) => {
+    return request.get('/article', { params: params })
+}
