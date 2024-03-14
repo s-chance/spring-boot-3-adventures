@@ -15,7 +15,7 @@ const categorys = ref([
     // { id: 11, categoryName: '物联网', categoryAlias: 'iot', createTime: '2021-08-08', updateTime: '2021-08-08' }
 ])
 // 声明异步函数调用文章列表查询函数
-import { articleCategoryListService, articleCategoryAddService } from '@/api/article.js'
+import { articleCategoryListService, articleCategoryAddService, articleCategoryUpdateService } from '@/api/article.js'
 const articleCategoryList = async() => {
     let result = await articleCategoryListService()
     console.log(result.data)
@@ -64,6 +64,19 @@ const showDialog = (row) => {
     // 扩展 id 属性，用于后续更新操作
     categoryModel.value.id = row.id
 }
+// 编辑分类
+const updateCategory = async (row) => {
+    // 调用接口
+    let result = await articleCategoryUpdateService(categoryModel.value)
+
+    ElMessage.success(result.message?result.message:'修改成功')
+
+    // 调用获取所有分类的函数
+    articleCategoryList()
+
+    // 关闭弹窗
+    dialogVisible.value = false
+}
 </script>
 
 <template>
@@ -103,7 +116,7 @@ const showDialog = (row) => {
             <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button type="primary" @click="addCategory">确认</el-button>
+                    <el-button type="primary" @click="title==='添加文章分类'? addCategory() : updateCategory()">确认</el-button>
                 </span>
             </template>
         </el-dialog>
