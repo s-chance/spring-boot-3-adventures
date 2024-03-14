@@ -28,6 +28,12 @@ instance.interceptors.request.use(
     }
 )
 
+// 由于模块加载机制，这里不能直接使用 useRouter
+// import { useRouter } from 'vue-router'
+// const router =  useRouter()
+// 可以直接导入 router 实例
+import router from '@/router'
+
 // 添加响应拦截器
 instance.interceptors.response.use(
     result => {
@@ -45,8 +51,14 @@ instance.interceptors.response.use(
         
     },
     err => {
-        // alert('请求失败，请稍后重试');
-        ElMessage.error(result.data.message?result.data.message:'请求失败，请稍后重试');
+        // 判断响应状态码，如果为 401 则证明未登录，提示请登录并跳转到登录页面
+        if (err.response.status === 401) {
+            // 未登录
+            ElMessage.error('请先登录')
+            router.push('/login')
+        } else {
+            ElMessage.error(result.data.message?result.data.message:'请求失败，请稍后重试');
+        }
         return Promise.reject(err); // 将异步状态改为失败状态，方便被 catch 捕获
     }
 )
