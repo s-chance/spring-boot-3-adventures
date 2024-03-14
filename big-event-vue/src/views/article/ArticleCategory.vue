@@ -15,7 +15,7 @@ const categorys = ref([
     // { id: 11, categoryName: '物联网', categoryAlias: 'iot', createTime: '2021-08-08', updateTime: '2021-08-08' }
 ])
 // 声明异步函数调用文章列表查询函数
-import { articleCategoryListService, articleCategoryAddService, articleCategoryUpdateService } from '@/api/article.js'
+import { articleCategoryListService, articleCategoryAddService, articleCategoryUpdateService, articleCategoryDeleteService } from '@/api/article.js'
 const articleCategoryList = async() => {
     let result = await articleCategoryListService()
     console.log(result.data)
@@ -39,7 +39,7 @@ const rules = {
         { required: true, message: '请输入分类别名', trigger: 'blur' },
     ]
 }
-import { ElMessage } from 'element-plus'; 
+import { ElMessage, ElMessageBox } from 'element-plus'; 
 // 调用添加分类接口
 const addCategory = async () => {
     // 调用接口
@@ -82,6 +82,35 @@ const clearData = () => {
     categoryModel.value.categoryName = ''
     categoryModel.value.categoryAlias = ''
 }
+// 删除分类
+const deleteCategory = (row) => {
+    // 弹出确认框
+    ElMessageBox.confirm(
+        '确认删除吗？',
+        '提示',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }
+    )
+    .then(async () => {
+        // 调用接口
+        let result = await articleCategoryDeleteService(row.id)
+        ElMessage({
+            type: 'success',
+            message: '删除成功'
+        })
+        // 刷新列表
+        articleCategoryList()
+    })
+    .catch(() => {
+        ElMessage({
+            type: 'info',
+            message: '操作取消'
+        })
+    })
+}
 </script>
 
 <template>
@@ -101,7 +130,7 @@ const clearData = () => {
             <el-table-column label="操作" width="100">
                 <template #default="{ row }">
                     <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" />
-                    <el-button :icon="Delete" circle plain type="danger" />
+                    <el-button :icon="Delete" circle plain type="danger" @click="deleteCategory(row)" />
                 </template>
             </el-table-column>
             <template #empty>
