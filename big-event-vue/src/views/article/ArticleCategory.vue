@@ -1,7 +1,7 @@
 <script setup>
 import { Edit, Delete } from '@element-plus/icons-vue'
-import { reactive } from 'vue'
-const categorys = reactive([
+import { ref } from 'vue'
+const categorys = ref([
     { id: 1, categoryName: '前端', categoryAlias: 'web', createTime: '2021-08-08', updateTime: '2021-08-08' },
     { id: 2, categoryName: '后端', categoryAlias: 'server', createTime: '2021-08-08', updateTime: '2021-08-08' },
     { id: 3, categoryName: '数据库', categoryAlias: 'db', createTime: '2021-08-08', updateTime: '2021-08-08' },
@@ -19,7 +19,7 @@ import { articleCategoryListService } from '@/api/article.js'
 const articleCategoryList = async() => {
     let result = await articleCategoryListService()
     console.log(result.data)
-    categorys = result.data
+    categorys.value = result.data
 }
 articleCategoryList();
 </script>
