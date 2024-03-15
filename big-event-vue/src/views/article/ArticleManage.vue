@@ -90,6 +90,8 @@ const articleList = async () => {
 }
 articleList()
 import { Plus } from '@element-plus/icons-vue'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 // 控制抽屉的显示与隐藏
 const drawerVisible = ref(false)
 // 添加表单数据模型
@@ -170,7 +172,9 @@ const articleModel = ref({
                     </el-upload>
                 </el-form-item>
                 <el-form-item label="文章内容">
-                    <div class="editor">富文本编辑器</div>
+                    <div class="editor">
+                        <quill-editor theme="snow" v-model:content="articleModel.content" contentType="html" />
+                    </div>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary">发布</el-button>
