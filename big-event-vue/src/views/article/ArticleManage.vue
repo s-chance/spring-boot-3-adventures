@@ -51,8 +51,8 @@ const onSizeChange = (size) => {
     articleList()
 }
 // 分页条页码改变时触发
-const onCurrentChange = (pageNum) => {
-    pageNum.value = pageNum
+const onCurrentChange = (num) => {
+    pageNum.value = num
     articleList()
 }
 
