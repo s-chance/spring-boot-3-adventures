@@ -57,7 +57,7 @@ const onCurrentChange = (num) => {
 }
 
 // 回显文章分类列表
-import { articleCategoryListService, articleListService, articleAddService, articleUpdateService } from '@/api/article.js'
+import { articleCategoryListService, articleListService, articleAddService, articleUpdateService, articleDeleteService } from '@/api/article.js'
 const articleCategoryList = async () => {
     let result = await articleCategoryListService()
     categorys.value = result.data
@@ -105,7 +105,7 @@ const articleModel = ref({
 
 // 导入 token
 import { useTokenStore } from '@/stores/token.js';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 const tokenStore = useTokenStore()
 
 // 上传成功的回调函数
@@ -155,6 +155,35 @@ const updateArticle = async (state) => {
 
     articleList()
     drawerVisible.value = false
+}
+// 删除文章
+const deleteArticle = (row) => {
+    // 弹出确认框
+    ElMessageBox.confirm(
+        '确认删除吗？',
+        '提示',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }
+    )
+    .then(async () => {
+        // 调用接口
+        let result = await articleDeleteService(row.id)
+        ElMessage({
+            type: 'success',
+            message: '删除成功'
+        })
+        // 刷新列表
+        articleList()
+    })
+    .catch(() => {
+        ElMessage({
+            type: 'info',
+            message: '已取消删除'
+        })
+    })
 }
     
 // 清空模型的数据
@@ -207,7 +236,7 @@ const clearData = () => {
             <el-table-column label="操作" width="100">
                 <template #default="{ row }">
                     <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" />
-                    <el-button :icon="Delete" circle plain type="danger" />
+                    <el-button :icon="Delete" circle plain type="danger" @click="deleteArticle(row)" />
                 </template>
             </el-table-column>
         </el-table>
