@@ -13,6 +13,8 @@ import avatar from '@/assets/avatar.webp'
 
 import { userInfoService } from '@/api/user.js'
 import useUserInfoStore from '@/stores/userInfo.js'
+import { useTokenStore } from '@/stores/token.js'
+const tokenStore = useTokenStore()
 const userInfoStore = useUserInfoStore()
 // 调用函数，获取用户详细信息
 const getUserInfo = async () => {
@@ -23,6 +25,48 @@ const getUserInfo = async () => {
 }
 
 getUserInfo()
+import { useRouter } from 'vue-router';
+import { ElMessage, ElMessageBox } from 'element-plus';
+const router = useRouter()
+// 条目被点击后，调用的函数
+const handleCommand = (command) => {
+    // 判断指令
+    if (command === 'logout') {
+        // 退出登录
+        // 弹出确认框
+    ElMessageBox.confirm(
+        '确认要退出登录吗？',
+        '提示',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }
+    )
+    .then(async () => {
+        // 退出登录
+        // 1.清除 Pinia 中的 token 和 userInfo
+        tokenStore.removeToken()
+        userInfoStore.removeInfo()
+        // 2.跳转回登录页
+        router.push('/login')
+        ElMessage({
+            type: 'success',
+            message: '退出登录成功'
+        })
+
+    })
+    .catch(() => {
+        ElMessage({
+            type: 'info',
+            message: '操作取消'
+        })
+    })
+    } else {
+        // 路由
+        router.push('/user/' + command)
+    }
+}
 </script>
 
 <template>
@@ -80,7 +124,8 @@ getUserInfo()
             <el-header>
                 <div>当前用户：<strong>{{ userInfoStore.info.nickname }}</strong></div>
                 <!-- 下拉菜单 -->
-                <el-dropdown placement="bottom-end">
+                <!-- command: 条目被点击后会被触发，在事件函数上可以声明一个参数，接收条目对应的指令 -->
+                <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
                         <el-avatar :src="userInfoStore.info.avatar ? userInfoStore.info.avatar : avatar" />
                         <el-icon>
@@ -89,9 +134,9 @@ getUserInfo()
                     </span>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
+                            <el-dropdown-item command="info" :icon="User">基本资料</el-dropdown-item>
                             <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
-                            <el-dropdown-item command="password" :icon="EditPen">重置密码</el-dropdown-item>
+                            <el-dropdown-item command="resetPassword" :icon="EditPen">重置密码</el-dropdown-item>
                             <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
