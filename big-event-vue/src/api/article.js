@@ -24,3 +24,7 @@ export const articleCategoryDeleteService = (id) => {
 export const articleListService = (params) => {
     return request.get('/article', { params: params })
 }
+// 文章添加
+export const articleAddService = (articleData) => {
+    return request.post('/article', articleData)
+}

@@ -57,7 +57,7 @@ const onCurrentChange = (pageNum) => {
 }
 
 // 回显文章分类列表
-import { articleCategoryListService, articleListService } from '@/api/article.js'
+import { articleCategoryListService, articleListService, articleAddService } from '@/api/article.js'
 const articleCategoryList = async () => {
     let result = await articleCategoryListService()
     categorys.value = result.data
@@ -105,12 +105,41 @@ const articleModel = ref({
 
 // 导入 token
 import { useTokenStore } from '@/stores/token.js';
+import { ElMessage } from 'element-plus';
 const tokenStore = useTokenStore()
 
 // 上传成功的回调函数
 const uploadSuccess = (result) => {
-    articleModel.value.cover = result.data
+    articleModel.value.cover = 'http://example.com'
     console.log(result.data)
+}
+
+// 添加文章
+const addArticle = async (state) => {
+    // 把发布状态赋值给数据模型
+    articleModel.value.state = state
+
+    // 调用接口
+    let result = await articleAddService(articleModel.value)
+
+    ElMessage.success(result.message?result.message:'添加成功')
+
+    // 关闭抽屉
+    drawerVisible.value = false
+
+    // 刷新当前列表
+    articleList()
+}
+
+// 清空模型的数据
+const clearData = () => {
+    articleModel.value = {
+        title: '',
+        content: '',
+        cover: '',
+        state: '',
+        categoryId: ''
+    }
 }
 </script>
 
@@ -120,7 +149,7 @@ const uploadSuccess = (result) => {
             <div class="header">
                 <span>文章管理</span>
                 <div class="extra">
-                    <el-button type="primary" @click="drawerVisible = true">添加文章</el-button>
+                    <el-button type="primary" @click="drawerVisible = true;clearData()">添加文章</el-button>
                 </div>
             </div>
         </template>
@@ -195,8 +224,8 @@ const uploadSuccess = (result) => {
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">发布</el-button>
-                    <el-button type="info">草稿</el-button>
+                    <el-button type="primary" @click="addArticle('已发布')">发布</el-button>
+                    <el-button type="info" @click="addArticle('草稿')">草稿</el-button>
                 </el-form-item>
             </el-form>
         </el-drawer>
