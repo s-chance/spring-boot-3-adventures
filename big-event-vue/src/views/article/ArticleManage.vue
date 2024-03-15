@@ -110,6 +110,8 @@ const tokenStore = useTokenStore()
 
 // 上传成功的回调函数
 const uploadSuccess = (result) => {
+    // articleModel.value.cover = result.data
+    // 没有第三方图床服务，暂时使用示例图片
     articleModel.value.cover = 'http://example.com'
     console.log(result.data)
 }

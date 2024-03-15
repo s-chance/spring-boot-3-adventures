@@ -15,8 +15,9 @@ const tokenStore = useTokenStore()
 
 // 图片上传成功的回调函数
 const  uploadSuccess = (result) => {
-    avatarUrl.value = result.data
-    avatarUrl.value = 'https://www.loliapi.com/acg/pp/'
+    // avatarUrl.value = result.data
+    // 没有第三方图床服务，暂时使用示例地址
+    avatarUrl.value = 'http://example.com'
 }
 
 import { userAvatarUpdateService } from '@/api/user.js'; 
