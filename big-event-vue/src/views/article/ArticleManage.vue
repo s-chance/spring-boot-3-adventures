@@ -57,7 +57,7 @@ const onCurrentChange = (num) => {
 }
 
 // 回显文章分类列表
-import { articleCategoryListService, articleListService, articleAddService } from '@/api/article.js'
+import { articleCategoryListService, articleListService, articleAddService, articleUpdateService } from '@/api/article.js'
 const articleCategoryList = async () => {
     let result = await articleCategoryListService()
     categorys.value = result.data
@@ -131,6 +131,32 @@ const addArticle = async (state) => {
     articleList()
 }
 
+// 抽屉标题
+const title = ref('')
+// 展示编辑抽屉
+const showDialog = (row) => {
+    drawerVisible.value = true
+    title.value = '编辑文章'
+    // 数据拷贝
+    articleModel.value = row
+    
+    // 扩展 id 属性，用于后续更新操作
+    articleModel.value.id = row.id
+}
+// 编辑文章
+const updateArticle = async (state) => {
+    // 把发布状态赋值给数据模型
+    articleModel.value.state = state
+
+    // 调用接口
+    let result = await articleUpdateService(articleModel.value)
+
+    ElMessage.success(result.message?result.message:'修改成功')
+
+    articleList()
+    drawerVisible.value = false
+}
+    
 // 清空模型的数据
 const clearData = () => {
     articleModel.value = {
@@ -149,7 +175,7 @@ const clearData = () => {
             <div class="header">
                 <span>文章管理</span>
                 <div class="extra">
-                    <el-button type="primary" @click="drawerVisible = true;clearData()">添加文章</el-button>
+                    <el-button type="primary" @click="drawerVisible = true;title='添加文章';clearData()">添加文章</el-button>
                 </div>
             </div>
         </template>
@@ -180,7 +206,7 @@ const clearData = () => {
             <el-table-column label="状态" prop="state" />
             <el-table-column label="操作" width="100">
                 <template #default="{ row }">
-                    <el-button :icon="Edit" circle plain type="primary" />
+                    <el-button :icon="Edit" circle plain type="primary" @click="showDialog(row)" />
                     <el-button :icon="Delete" circle plain type="danger" />
                 </template>
             </el-table-column>
@@ -191,7 +217,7 @@ const clearData = () => {
         @current-change="onCurrentChange" style="margin-top: 20px; justify-content: flex-end" />
 
         <!-- 抽屉 -->
-        <el-drawer v-model="drawerVisible" title="添加文章" direction="rtl" size="50%">
+        <el-drawer v-model="drawerVisible" :title="title" direction="rtl" size="50%">
             <!-- 添加文章表单 -->
             <el-form :model="articleModel" label-width="100px">
                 <el-form-item label="文章标题">
@@ -224,8 +250,8 @@ const clearData = () => {
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="addArticle('已发布')">发布</el-button>
-                    <el-button type="info" @click="addArticle('草稿')">草稿</el-button>
+                    <el-button type="primary" @click="title==='添加文章' ? addArticle('已发布') : updateArticle('已发布')">发布</el-button>
+                    <el-button type="info" @click="title==='添加文章' ? addArticle('草稿') : updateArticle('草稿')">草稿</el-button>
                 </el-form-item>
             </el-form>
         </el-drawer>

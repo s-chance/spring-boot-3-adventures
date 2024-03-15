@@ -28,3 +28,7 @@ export const articleListService = (params) => {
 export const articleAddService = (articleData) => {
     return request.post('/article', articleData)
 }
+// 文章修改
+export const articleUpdateService = (articleData) => {
+    return request.put('/article', articleData)
+}
