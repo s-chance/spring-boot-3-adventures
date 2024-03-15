@@ -11,13 +11,19 @@ const registerData = reactive({
     rePassword: ''
 })
 
+// 获取表单验证状态
+const validate = ref(false)
+
 // 校验密码是否一致
 const checkRePassward = (rule, value, callback) => {
     if (value==='') {
+        validate.value = false
         callback(new Error('请再次确认密码'))
     } else if (value !== registerData.password) {
+        validate.value = false
         callback(new Error('两次输入密码不一致'))
     } else {
+        validate.value = true
         callback()
     }
 }
@@ -40,7 +46,6 @@ const rules = {
 import { userRegisterService, userLoginService } from '@/api/user'
 // 调用注册接口
 const register = async () => {
-    let result = await userRegisterService(registerData);
     /* if (result.code === 0) {
         // 成功
         console.log('注册成功')   
@@ -49,7 +54,12 @@ const register = async () => {
         console.log('注册失败')
     } */
     // alert(result.message?result.message:'注册成功')
-    ElMessage.success(result.message?result.message:'注册成功')
+    if (validate.value === true) {
+        let result = await userRegisterService(registerData);
+        ElMessage.success(result.message ? result.message : '注册成功')
+        // 切换到登录表单
+        isRegister.value = false
+    }
 }
 
 // 登录数据模型，复用注册数据模型
