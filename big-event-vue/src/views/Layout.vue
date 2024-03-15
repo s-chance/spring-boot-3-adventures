@@ -10,6 +10,19 @@ import {
     Management,
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/avatar.webp'
+
+import { userInfoService } from '@/api/user.js'
+import useUserInfoStore from '@/stores/userInfo.js'
+const userInfoStore = useUserInfoStore()
+// 调用函数，获取用户详细信息
+const getUserInfo = async () => {
+    // 调用接口
+    let result = await userInfoService()
+    // 数据存储到 Pinia 中
+    userInfoStore.setInfo(result.data)
+}
+
+getUserInfo()
 </script>
 
 <template>
@@ -65,11 +78,11 @@ import avatar from '@/assets/avatar.webp'
         <el-container>
             <!-- 顶部区域 -->
             <el-header>
-                <div>当前用户：<strong>admin</strong></div>
+                <div>当前用户：<strong>{{ userInfoStore.info.nickname }}</strong></div>
                 <!-- 下拉菜单 -->
                 <el-dropdown placement="bottom-end">
                     <span class="el-dropdown__box">
-                        <el-avatar :src="avatar" />
+                        <el-avatar :src="userInfoStore.info.avatar ? userInfoStore.info.avatar : avatar" />
                         <el-icon>
                             <caret-bottom />
                         </el-icon>
