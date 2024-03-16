@@ -1,5 +1,5 @@
 # 数据库
-create database big_event;
+create database if not exists big_event default character set utf8mb4 collate utf8mb4_unicode_ci;
 # 使用
 use big_event;
 
@@ -35,7 +35,7 @@ create table article
     title       varchar(30)  not null comment '文章标题',
     content     text         not null comment '文章内容',
     cover       varchar(128) not null comment '文章封面',
-    state       varchar(3) default '草稿' comment '文章状态：已发布/草稿',
+    state       varchar(3)   not null comment '文章状态：已发布/草稿',
     category_id int unsigned comment '文章分类ID',
     author_id   int unsigned not null comment '作者ID',
     create_time datetime     not null comment '创建时间',
