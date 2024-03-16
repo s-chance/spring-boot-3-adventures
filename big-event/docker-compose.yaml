@@ -1,13 +1,16 @@
 version: "3.1"
 
 services:
-  db:
+  mysql:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./big_event.sql:/docker-entrypoint-initdb.d/big_event.sql # 初始化数据库
+      - big-event-mysql:/var/lib/mysql
     ports:
       - 3306:3306
 
@@ -15,3 +18,6 @@ services:
     image: redis
     ports:
       - 6379:6379
+
+volumes:
+  big-event-mysql:
