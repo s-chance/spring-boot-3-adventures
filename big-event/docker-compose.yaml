@@ -32,6 +32,11 @@ services:
       - redis
     ports:
       - 8080:8080
+  
+  frontend:
+    image: big-event-vue
+    ports:
+      - 80:80
 
 volumes:
   big-event-mysql:
