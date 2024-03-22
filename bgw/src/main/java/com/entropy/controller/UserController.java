@@ -10,6 +10,7 @@ public class UserController {
 
     @RequestMapping("/info")
     public ModelAndView info() {
+        // int i = 1 / 0;
         ModelAndView mv = new ModelAndView();
         mv.setViewName("userInfo");
         mv.addObject("username", "kafka");
