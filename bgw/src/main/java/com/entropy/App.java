@@ -19,10 +19,12 @@ public class App {
         System.out.println(app);*/
 
         // 获取 BeanDefinition 对象
-        ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+        /*ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
         BeanDefinition userBD = beanFactory.getBeanDefinition("user");
         BeanDefinition fooBD = beanFactory.getBeanDefinition("foo");
         System.out.println(userBD.getClass());
-        System.out.println(fooBD.getClass());
+        System.out.println(fooBD.getClass());*/
+
+        System.out.println(context.getBean("teacher"));
     }
 }
