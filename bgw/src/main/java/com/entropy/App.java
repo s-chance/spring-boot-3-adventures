@@ -14,8 +14,15 @@ public class App {
         System.out.println(applicationName);*/
 
         // AnnotationConfigServletWebServerApplicationContext 最终获取到的容器类型
-        System.out.println(context.getClass());
+        /*System.out.println(context.getClass());
         App app = context.getBean(App.class);
-        System.out.println(app);
+        System.out.println(app);*/
+
+        // 获取 BeanDefinition 对象
+        ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+        BeanDefinition userBD = beanFactory.getBeanDefinition("user");
+        BeanDefinition fooBD = beanFactory.getBeanDefinition("foo");
+        System.out.println(userBD.getClass());
+        System.out.println(fooBD.getClass());
     }
 }
